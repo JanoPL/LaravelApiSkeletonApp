@@ -6,7 +6,7 @@ RUN apt-get update &&\
     apt-get upgrade -y &&\
     apt-get install -y tzdata &&\
     apt-get install -y \
-    wget apt-transport-https lsb-release ca-certificates apt-utils
+    wget apt-transport-https lsb-release ca-certificates apt-utils acl
 
 RUN apt-get update &&\
     apt-get upgrade -y &&\
@@ -45,5 +45,8 @@ RUN chmod 755 /var/www/html
 #RUN chgrp -R www-data /var/www/html/storage /var/www/html/bootstrap/cache
 #RUN chmod -R ug+rwx /var/www/html/storage var/www/html/bootstrap/cache
 
+# Composer Install
+RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer \
+&& composer global require hirak/prestissimo --no-plugins --no-scripts
 
 CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
